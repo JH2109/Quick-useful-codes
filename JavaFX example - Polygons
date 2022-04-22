@@ -1,0 +1,398 @@
+/**
+* @title Shapes
+* @description This program takes user input for the number of sides of a polygon (between 5 and 8 inclusive) and displays a polygon with that number of sides.
+* Polygons with an even number of sides are coloured red and those with an odd number of sides are coloured black. 
+* The program also takes user input for rotation angles of 30, 90 and -45 degrees and displays the rotated polygons.
+* @version 04.04.22
+*/
+
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene; 
+import javafx.scene.paint.Color; 
+import javafx.scene.text.Font; 
+import javafx.stage.Stage;
+import javafx.scene.shape.Polygon;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label; 
+import javafx.scene.control.TextField; 
+import javafx.scene.layout.VBox;
+import javafx.scene.transform.Rotate;
+
+public class Shapes extends Application
+{
+	@Override
+	public void start(Stage stage) 
+	{
+		// create a text field for user to enter number of sides
+		TextField sidesField = new TextField();
+		sidesField.setMaxWidth(40);
+
+		// add a label for the user entry
+		Label sidesLabel = new Label("Please enter an integer between 5 and 8 inclusive");
+		sidesLabel.setTextFill(Color.BLUE);
+		sidesLabel.setFont(Font.font("Arial", 20));
+		
+		// add a button to submit number of sides
+		Button sidesButton = new Button();
+		sidesButton.setTextFill(Color.GREEN);
+		sidesButton.setFont(Font.font("Arial", 18));
+		sidesButton.setText("Click here to see your polygon!");
+			
+		// create a VBox to hold the components
+		VBox root = new VBox(25);
+		root.setAlignment(Pos.CENTER);
+		root.getChildren().addAll(sidesLabel, sidesField, sidesButton);
+		
+		// create a scene and add to stage
+		Scene scene = new Scene(root, 500, 650);
+		stage.setScene(scene);
+		stage.setTitle("Shapes");
+		stage.show();
+		
+		sidesButton.setOnAction(e -> 
+		{
+			// check input and draw pentagon given valid input
+			if (sidesField.getText().equals("5")) 
+			{
+				stage.setTitle("Pentagon!");
+								
+				Polygon pentagon = new Polygon();
+				pentagon.getPoints().addAll(new Double[] {200.0,50.0,57.0,154.0,112.0,321.0,288.0,321.0,343.0,154.0});
+				pentagon.setFill(Color.BLACK);
+				
+			    // display pentagon
+				root.getChildren().add(pentagon);
+				
+			    // remove the text field and button
+				root.getChildren().removeAll(sidesLabel,sidesField,sidesButton);
+				
+				// add a label and request angle input from user
+				Label angleLabel = new Label("\n             A black pentagon! Let's give it a spin!\n\nPlease enter a rotation angle of either 30, 90 or -45");
+				angleLabel.setTextFill(Color.BLUE);
+				angleLabel.setFont(Font.font("Arial", 18));
+				angleLabel.setAlignment(Pos.CENTER);
+
+				// create a text field for rotation angle
+				TextField angleField = new TextField();
+				angleField.setMaxWidth(40);
+
+				// add a button to submit rotation angle
+				Button angleButton = new Button();
+				angleButton.setTextFill(Color.GREEN);
+				angleButton.setFont(Font.font("Arial", 18));
+				angleButton.setText("Click here to rotate your pentagon!");
+				
+				// add a button to return to sides menu
+				Button returnButton = new Button();
+				returnButton.setTextFill(Color.RED);
+				returnButton.setFont(Font.font("Arial",18));
+				returnButton.setText("Click here to try another shape!");
+
+				root.getChildren().addAll(angleLabel, angleField, angleButton, returnButton);
+				
+				// return to sides menu
+				returnButton.setOnAction(er -> 
+				{
+					stage.close();
+					start(new Stage());
+					
+				});
+
+				// display rotated pentagon or error message if input invalid
+				angleButton.setOnAction(el -> {
+					if (angleField.getText().equals("30")) {		
+						Rotate rotate = new Rotate();
+						rotate.setAngle(30);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    pentagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("90")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(90);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    pentagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("-45")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(-45);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    pentagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else {
+						Alert errorAlert = new Alert(AlertType.ERROR);
+						errorAlert.setHeaderText("Invalid entry!");
+						errorAlert.setContentText("Please enter either 30, 90 or -45 to rotate the pentagon by that number of degrees about its centre!");
+						errorAlert.showAndWait();
+					}
+
+				});
+				
+			}
+		
+		   else if (sidesField.getText().equals("6")) 
+		   {
+			   stage.setTitle("Hexagon!");
+			   
+			   Polygon hexagon = new Polygon();
+			   hexagon.getPoints().addAll(new Double[] {275.0,70.0,125.0,70.0,50.0,200.0,125.0,330.0,275.0,330.0,350.0,200.0});
+			   hexagon.setFill(Color.RED);
+		
+		       // display hexagon
+			   root.getChildren().add(hexagon);
+		
+		       // remove the text field and button
+			   root.getChildren().removeAll(sidesLabel,sidesField,sidesButton);
+			   
+				// add a label and request angle input from user
+				Label angleLabel = new Label("\n               A red hexagon! Let's give it a spin!\n\nPlease enter a rotation angle of either 30, 90 or -45");
+				angleLabel.setTextFill(Color.BLUE);
+				angleLabel.setFont(Font.font("Arial", 18));
+
+				// create a text field for rotation angle
+				TextField angleField = new TextField();
+				angleField.setMaxWidth(40);
+
+				// add a button to submit rotation angle
+				Button angleButton = new Button();
+				angleButton.setTextFill(Color.GREEN);
+				angleButton.setFont(Font.font("Arial", 18));
+				angleButton.setText("Click here to rotate your hexagon!");
+				
+				// add a button to return to sides menu
+				Button returnButton = new Button();
+				returnButton.setTextFill(Color.RED);
+				returnButton.setFont(Font.font("Arial",18));
+				returnButton.setText("Click here to try another shape!");
+
+				root.getChildren().addAll(angleLabel, angleField, angleButton, returnButton);
+				
+				// return to sides menu
+				returnButton.setOnAction(er -> 
+				{
+					stage.close();
+					start(new Stage());
+					
+				});
+
+				// display rotated hexagon or error message if input invalid
+				angleButton.setOnAction(e1 -> {
+					if (angleField.getText().equals("30")) {		
+						Rotate rotate = new Rotate();
+						rotate.setAngle(30);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    hexagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("90")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(90);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    hexagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("-45")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(-45);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    hexagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else {
+						Alert errorAlert = new Alert(AlertType.ERROR);
+						errorAlert.setHeaderText("Invalid entry!");
+						errorAlert.setContentText("Please enter either 30, 90 or -45 to rotate the hexagon by that number of degrees about its centre!");
+						errorAlert.showAndWait();
+					}
+
+				});
+				
+			}
+		
+		   else if (sidesField.getText().equals("7")) 
+		   {
+			   stage.setTitle("Heptagon!");
+			   
+			   Polygon heptagon = new Polygon();
+			   heptagon.getPoints().addAll(new Double[] {200.0,50.0,83.0,106.0,54.0,233.0,135.0,335.0,265.0,335.0,346.0,233.0,317.0,106.0});
+			   heptagon.setFill(Color.BLACK);
+		
+			   // display heptagon
+			   root.getChildren().add(heptagon);
+		
+			   // remove the text field and button
+			   root.getChildren().removeAll(sidesLabel,sidesField,sidesButton);
+			   
+				// add a label and request angle input from user
+				Label angleLabel = new Label("\n             A black heptagon! Let's give it a spin!\n\nPlease enter a rotation angle of either 30, 90 or -45");
+				angleLabel.setTextFill(Color.BLUE);
+				angleLabel.setFont(Font.font("Arial", 18));
+
+				// create a text field for rotation angle
+				TextField angleField = new TextField();
+				angleField.setMaxWidth(40);
+
+				// add a button to submit rotation angle
+				Button angleButton = new Button();
+				angleButton.setTextFill(Color.GREEN);
+				angleButton.setFont(Font.font("Arial", 18));
+				angleButton.setText("Click here to rotate your heptagon!");
+
+				// add a button to return to sides menu
+				Button returnButton = new Button();
+				returnButton.setTextFill(Color.RED);
+				returnButton.setFont(Font.font("Arial",18));
+				returnButton.setText("Click here to try another shape!");
+
+				root.getChildren().addAll(angleLabel, angleField, angleButton, returnButton);
+				
+				// return to sides menu
+				returnButton.setOnAction(er -> 
+				{
+					stage.close();
+					start(new Stage());
+					
+				});
+
+				// display rotated heptagon or error message if input invalid
+				angleButton.setOnAction(e1 -> {
+					if (angleField.getText().equals("30")) {		
+						Rotate rotate = new Rotate();
+						rotate.setAngle(30);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    heptagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("90")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(90);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    heptagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("-45")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(-45);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    heptagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else {
+						Alert errorAlert = new Alert(AlertType.ERROR);
+						errorAlert.setHeaderText("Invalid entry!");
+						errorAlert.setContentText("Please enter either 30, 90 or -45 to rotate the heptagon by that number of degrees about its centre!");
+						errorAlert.showAndWait();
+					}
+
+				});
+				
+			}
+			   
+		   else if (sidesField.getText().equals("8")) 
+		   {
+			   stage.setTitle("Octagon!");
+			   
+			   Polygon octagon = new Polygon();
+			   octagon.getPoints().addAll(new Double[] {257.0,61.0,143.0,61.0,61.0,143.0,61.0,257.0,143.0,339.0,257.0,339.0,339.0,257.0,339.0,143.0});
+			   octagon.setFill(Color.RED);
+		
+			   // display octagon
+			   root.getChildren().add(octagon);
+		
+			   // remove the text field and button
+			   root.getChildren().removeAll(sidesLabel,sidesField,sidesButton);
+			   
+				// add a label and request angle input from user
+				Label angleLabel = new Label("\n               A red octagon! Let's give it a spin!\n\nPlease enter a rotation angle of either 30, 90 or -45");
+				angleLabel.setTextFill(Color.BLUE);
+				angleLabel.setFont(Font.font("Arial", 18));
+
+				// create a text field for rotation angle
+				TextField angleField = new TextField();
+				angleField.setMaxWidth(40);
+
+				// add a button to submit rotation angle
+				Button angleButton = new Button();
+				angleButton.setTextFill(Color.GREEN);
+				angleButton.setFont(Font.font("Arial", 18));
+				angleButton.setText("Click here to rotate your octagon!");
+
+				// add a button to return to sides menu
+				Button returnButton = new Button();
+				returnButton.setTextFill(Color.RED);
+				returnButton.setFont(Font.font("Arial",18));
+				returnButton.setText("Click here to try another shape!");
+
+				root.getChildren().addAll(angleLabel, angleField, angleButton, returnButton);
+				
+				// return to sides menu
+				returnButton.setOnAction(er -> 
+				{
+					stage.close();
+					start(new Stage());
+					
+				});
+
+				// display rotated octagon or error message if input invalid
+				angleButton.setOnAction(e1 -> {
+					if (angleField.getText().equals("30")) {		
+						Rotate rotate = new Rotate();
+						rotate.setAngle(30);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    octagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("90")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(90);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    octagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else if (angleField.getText().equals("-45")) {
+						Rotate rotate = new Rotate();
+						rotate.setAngle(-45);
+					    rotate.setPivotX(200);  
+					    rotate.setPivotY(200);  
+					    octagon.getTransforms().add(rotate);
+						stage.setScene(scene);
+						stage.show();
+					} else {
+						Alert errorAlert = new Alert(AlertType.ERROR);
+						errorAlert.setHeaderText("Invalid entry!");
+						errorAlert.setContentText("Please enter either 30, 90 or -45 to rotate the octagon by that number of degrees about its centre!");
+						errorAlert.showAndWait();
+					}
+
+				});
+				
+			} 
+		   
+		   else {
+				Alert sidesAlert = new Alert(AlertType.ERROR);
+				sidesAlert.setHeaderText("Invalid entry!");
+				sidesAlert.setContentText("Please enter either 5, 6, 7 or 8 to generate a regular polygon with that number of sides!");
+				sidesAlert.showAndWait();
+			} 				
+});
+	}		
+			public static void main(String[] args) {
+			launch(args);
+			}
+		}	
